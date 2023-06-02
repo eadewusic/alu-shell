@@ -1,1 +1,2 @@
-This task is for Shell, I/O Redirections and filters
+This repository contains my 17 tasks implementations of Shell, basics project by Julien Barbier at ALU, Rwanda
+
