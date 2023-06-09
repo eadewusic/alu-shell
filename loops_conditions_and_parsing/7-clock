@@ -5,11 +5,18 @@ hours=0
 minutes=1
 
 while [ $hours -le 12 ]; do
-  printf "Hour: %02d\n" $hours
+  printf "%02d\n" $hours
+  if [ $hours -eq 4 ]; then
+    echo "bad luck from China"
+  elif [ $hours -eq 9 ]; then
+    echo "bad luck from Japan"
+  elif [ $hours -eq 17 ]; then
+    echo "bad luck from Italy"
+  fi
   while [ $minutes -le 59 ]; do
     printf "%02d\n" $minutes
     minutes=$((minutes+1))
   done
   minutes=1
   hours=$((hours+1))
-done | head -n 70
+done
