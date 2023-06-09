@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script displays the content of /etc/passwd with additional information using the while loop and IFS
+
+while IFS=':' read -r username _ userid groupid _ _ home shell; do
+    user_info=$(grep "^$username:" /etc/passwd | awk -F ':' '{print $5}')
+    echo "The user $username is part of the $groupid gang, lives in $home, and rides $shell."
+    echo "User ID's place is protected by the passcode $user_info, more info about the user here: $userid INFO"
+    echo
+done < /etc/passwd
