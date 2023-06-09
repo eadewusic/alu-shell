@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Bash script to group visitors by IP and HTTP status code from Apache log file
 
 awk '{ count[$1,$9]++ } END { for (ipCode in count) { split(ipCode, arr, SUBSEP); printf "%d %s %s\n", count[ipCode], arr[1], arr[2] } }' apache-access.log | sort -nr
