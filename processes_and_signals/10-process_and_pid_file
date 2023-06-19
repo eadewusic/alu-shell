@@ -1,16 +1,41 @@
 #!/usr/bin/env bash
 #A new Bash scripts that creates and displays;
 
-# Trap signals and define the corresponding actions
-trap 'echo "I hate the kill command"' SIGTERM
-trap 'echo "Y U no love me?!"' SIGINT
-trap 'rm /var/run/myscript.pid; exit 0' SIGQUIT SIGTERM
-
-# Write the PID to the file
+# Store the PID in the file
 echo $$ > /var/run/myscript.pid
+
+# Function to handle SIGTERM signal
+terminate() {
+  echo "I hate the kill command"
+  cleanup
+  exit 1
+}
+
+# Function to handle SIGINT signal
+interrupt() {
+  echo "Y U no love me?!"
+}
+
+# Function to handle SIGQUIT signal
+quit() {
+  echo "Y U quit me?!"
+  cleanup
+  exit 1
+}
+
+# Function to perform cleanup tasks
+cleanup() {
+  # Remove the PID file
+  rm -f /var/run/myscript.pid
+}
+
+# Register signal handlers
+trap terminate SIGTERM
+trap interrupt SIGINT
+trap quit SIGQUIT
 
 # Display "To infinity and beyond" indefinitely
 while true; do
-    echo "To infinity and beyond"
-    sleep 1
+  echo "To infinity and beyond"
+  sleep 1
 done
