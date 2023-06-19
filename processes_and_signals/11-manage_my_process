@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#This script does the following;
+
+PID_FILE="/var/run/my_process.pid"
+PROCESS_NAME="./manage_my_process"
+
+start_process() {
+  if [ -f "$PID_FILE" ]; then
+    echo "Error: manage_my_process is already running."
+    return 1
+  fi
+
+  ./$PROCESS_NAME &
+
+  echo $! > "$PID_FILE"
+  echo "manage_my_process started"
+}
+
+stop_process() {
+  if [ ! -f "$PID_FILE" ]; then
+    echo "Error: manage_my_process is not running."
+    return 1
+  fi
+
+  kill $(cat "$PID_FILE")
+  rm "$PID_FILE"
+  echo "manage_my_process stopped"
+}
+
+restart_process() {
+  stop_process
+  start_process
+  echo "manage_my_process restarted"
+}
+
+case $1 in
+  start)
+    start_process
+    ;;
+  stop)
+    stop_process
+    ;;
+  restart)
+    restart_process
+    ;;
+  *)
+    echo "Usage: manage_my_process {start|stop|restart}"
+    ;;
+esac
